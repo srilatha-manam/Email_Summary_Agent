@@ -32,4 +32,23 @@ class Summarizer:
                 raise ValueError("Input text cannot be empty")
 
             logger.debug(f"Summarizing text: {text[:50]}...")
-            summary = self.model(text[:1024], max_length=50, mi
+            summary = self.model(text[:1024], max_length=50, min_length=20, do_sample=False)[0]['summary_text']
+            logger.info("Text summarized successfully")
+            return summary
+
+        except ValueError as e:
+            logger.error(f"ValueError in summarize: {str(e)}")
+            raise ValueError(f"Invalid input for summarization: {str(e)}")
+        except PipelineException as e:
+            logger.error(f"PipelineException in summarize: {str(e)}")
+            raise RuntimeError(f"Model pipeline error during summarization: {str(e)}")
+        except Exception as e:
+            logger.error(f"Unexpected error in summarize: {str(e)}")
+            raise RuntimeError(f"Unexpected error during summarization: {str(e)}")
+
+try:
+    summarizer = Summarizer()
+    logger.info("Summarizer instance created successfully")
+except RuntimeError as e:
+    logger.error(f"Failed to create Summarizer instance: {str(e)}")
+    raise
