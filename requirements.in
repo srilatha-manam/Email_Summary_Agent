@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+psycopg2-binary
+sqlalchemy
+langchain
+transformers
+torch
+
+#pip install pip-tools
+#pip-compile requirements.in
+#pip-sync requirements.txt
+#pip install -r requirements.txt
